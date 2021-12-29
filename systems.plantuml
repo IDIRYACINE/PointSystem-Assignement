@@ -1,0 +1,209 @@
+@startuml systems
+
+class RegistrationSystem{
+    -gymnastes : ArrayList<Gymnaste>
+    -judges : ArrayList<Judge>
+    -teams : Map<String , Team>
+    +RegistrationSystem() : RegistrationSystem
+    +RegisterGymnaste() : void
+    +RegisterJudge() : void
+}
+
+class RegistrationAgent{
+    -registrationSystem : RegistrationSystem
+    +RegistrationAgent(registrationSystem : RegistrationSystem) : RegistrationAgent
+    +RegisterGymnaste(firstName:String , lastName : String ,age:Integer,addresse:Addresse,teamName:String) : void
+    +RegisterJudge(firstName:String , lastName : String , Matricule: Integer) : void
+
+}
+
+'----------------
+
+class EngineModerationSystem{
+    -engines : ArrayList<Engine>
+    -currentEngineIndex  : Integer
+    +EngineModerationSystem(engineCount : Integer) : EngineModerationSystem
+    -NextEngine() : void
+    +StartEngineCompetition() : void
+}
+
+class Engine{
+    -gymnastes : ArrayList<Gymnaste>
+    -judges : ArrayList<Judge>
+    -teams : ArrayList<Teams>
+    -compilateur : Compilateur
+    +Engine(compilateur : Compilateur) : Engine
+    -AnounceGymnasteId() : void
+    +AppendGymnaste(gymnaste : Gymnaste) : void
+    +RemoveGymnaste(gymnaste : Gymnaste) : void
+    +AppendJudge(judge : Judge) : void
+    +RemoveJudge(judge : Judge) : void
+    +GetTeam(index : Integer) : Team
+    +GetGymnaste(index : Integer) : Gymnaste
+    +GetJudge(index : Integer) : Judge
+    +GetJudgeCount() : Integer
+    +GetTeamCount() : Integer
+    +GetGymnasteCount() : Integer
+    +StartFigureCompetition() : void
+}
+
+class GymnasteNotesRegister{
+    -gymnastesNotesByFigure : Map<String , SoloCachedNote>
+    -teamsNotesByEngine : Map<String , TeamCachedNote>
+    +GymnasteNotesRegister() : GymnasteNotesRegister
+    +RegisterSoloNote(firstNote:Integer , secondNote : Integer , thirdNote: Integer , gymnasteId : Integer) : void
+    +RegisterTeamNote(note : Integer , teamId) : void
+    +SetEngine(engineId : String) : void
+    +SetCompetitionMode(mode : CompetitionMode) : void
+}
+
+
+class SoloCachedNote{
+    -firstNote:Integer 
+    -secondNote : Integer 
+    -thirdNote: Integer 
+
+    +CachedNote(firstNote:Integer , secondNote : Integer , thirdNote: Integer , gymnasteId : Integer) : CachedNote
+
+    +getFirstNote() : Integer
+    +getSecondNote() : Integer
+    +getThirdNote() : Integer
+
+}
+
+
+class TeamCachedNote{
+    -firstNote:Integer 
+    -secondNote : Integer 
+    -thirdNote: Integer 
+
+    +CachedNote(firstNote:Integer , secondNote : Integer , thirdNote: Integer , gymnasteId : Integer) : CachedNote
+
+    +getFirstNote() : Integer
+    +getSecondNote() : Integer
+    +getThirdNote() : Integer
+
+}
+
+'-----------------
+
+class Gymnaste{
+    -firstName : String   
+    -lastName  : String
+    -age  : Integer
+    -adresse  : String
+    -teamName : String
+    -participationId : Integer
+    -note : ArrayList<Integer>
+    +Gymnaste(firstName:String,lastName:String,age:Integer,addresse:Addresse,teamName:String) : Gymnaste
+    +GetFirstName() : String
+    +GetLastName() : String
+    +GetAge() : Integer
+    +GetAddresse : Addresse
+    +GetTeamName() : String
+    +GetId(): Integer
+    +SetId(id :Integer) : void
+    +setNote(figureId :Integer ,note:Integer) : void
+}
+
+
+class Team{
+    -gymnastes : ArrayList<Gymnaste>
+    +Team() : Team
+    +AppendGymnaste(gymnaste:Gymnaste) : void
+    +GetGymnaste(int index) : gymnaste
+    +GetTeamMembersCount() : Integer
+    +SetRoutine(routine:Routine) : void
+}
+
+enum Figure{
+    Anneaux,ChevalDarçon,Poutre,BarresParallèles
+}
+
+'------------------
+
+class Judge{
+    -firstName : String
+    -lastName  : String
+    -matricule : Integer
+    -numeriqueCard : NumeriqueCard
+    -assignementCertificate : AssignementCertificate
+    +Judge(firstName:String,lastName:String,Matricule:Integer):Judge
+    +GetFirstName() : String
+    +GetLastName() : String
+    +GetMatricule() : Integer 
+    +getNextEngine() : Integer
+    +GetFigureEvaluation(): Integer
+    +EvaluateGymnasteFigure(gymnasteId:Integer , figure:Figure) : void
+}
+
+class AssignementCertificate{
+    -enginesId : ArrayList<Integer>
+    +AssignementCertificate() : AssignementCertificate
+    +getNextEngine() : Integer
+}
+
+
+class NumeriqueCard{
+    -Note : Integer
+    +NumeriqueCard() : NumeriqueCard
+    +getNote() : Integer
+    +setNote(note : Integer) : void
+}
+'-----------------
+class Compilateur{
+    -GymnasteNotesRegister
+    +Compilateur() : Compilateur
+    +CompileRoundNotes() : void
+}
+
+class Routine{
+    -figures:ArrayList<Figure>
+    +Routine(): Routine
+    +AppendFigure(figure:Figure):void
+    +RemoveFigure(figure:Figure):void
+    +GetFigure() : Figure
+    +GetFigureCount() : Integer
+}
+'-----------------
+
+class PointGym{
+    -gymnasteNotesRegister : GymnasteNotesRegister
+    -registrationAgent : RegistrationAgent
+    +PointGym() : PointGym
+    
+    +RegisterGymnaste(firstName:String , lastName : String ,age:Integer,addresse:Addresse,teamName:String) : void
+    +RegisterJudge(firstName:String , lastName : String , Matricule: Integer) : void
+    +StartFirstDayCompetition() : void
+    +StartSecondDayCompetition() : void
+}
+
+
+enum CompetitionMode{
+    Solo,Team
+}
+
+
+'-------------------
+PointGym --> EngineModerationSystem
+PointGym --> RegistrationAgent
+PointGym --> GymnasteNotesRegister
+
+GymnasteNotesRegister --> CachedNote
+
+EngineModerationSystem --> Engine
+Engine --> Gymnaste
+Engine --> Judge
+
+
+Judge -> AssignementCertificate
+NumeriqueCard <- Judge
+
+Team -o Gymnaste
+Team --> Routine
+
+RegistrationAgent --> RegistrationSystem
+
+Engine -> Compilateur
+
+@enduml
