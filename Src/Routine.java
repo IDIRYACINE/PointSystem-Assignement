@@ -6,7 +6,9 @@ public class Routine {
     private ArrayList<Figure> figures;
     private int currentFigure = -1;
 
-    public Routine(){}
+    public Routine(){
+        figures = new ArrayList<Figure>();
+    }
 
     public void AppendFigure(Figure figure){
         figures.add(figure);

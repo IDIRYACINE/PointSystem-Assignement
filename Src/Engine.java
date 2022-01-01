@@ -8,29 +8,59 @@ public class Engine {
     private ArrayList<Team>  teams;
     private  Compilateur compilateur ;
 
-    public Engine(Compilateur compilateur ){}
+    public Engine(Compilateur compilateur ){
+        this.compilateur = compilateur;
+    }
 
-    private void AnounceGymnasteId(){}
+    private void AnounceGymnasteId(Gymnaste gymnaste){
 
-    public void AppendGymnaste(Gymnaste gymnaste ){}
+        for (int i=0 ; i > judges.size() ;i++){
+            judges.get(i).EvaluateGymnasteFigure(gymnaste.GetId(), figure);
+        }
 
-    public void RemoveGymnaste( Gymnaste gymnaste ){}
+        compilateur.CompileRoundNotes();
 
-    public void AppendJudge(Judge judge){}
+    }
 
-    public void RemoveJudge(Judge judge ){}
+    public void AppendGymnaste(Gymnaste gymnaste ){
+        gymnastes.add(gymnaste);
+    }
 
-    public Team GetTeam(Integer index ){}
+    public void RemoveGymnaste( Gymnaste gymnaste ){
+        gymnastes.remove(gymnaste);
+    }
 
-    public Gymnaste GetGymnaste(Integer index ){}
+    public void AppendJudge(Judge judge){
+        judges.add(judge);
+    }
 
-    public Judge GetJudge(Integer index ){}
+    public void RemoveJudge(Judge judge ){
+        judges.remove(judge);
+    }
 
-    public Integer GetJudgeCount(){}
+    public Team GetTeam(Integer index ){
+        return teams.get(index);
+    }
 
-    public Integer GetTeamCount(){}
+    public Gymnaste GetGymnaste(Integer index ){
+        return gymnastes.get(index);
+    }
 
-    public Integer GetGymnasteCount(){}
+    public Judge GetJudge(Integer index ){
+        return judges.get(index);
+    }
+
+    public Integer GetJudgeCount(){
+        return judges.size();
+    }
+
+    public Integer GetTeamCount(){
+        return teams.size();
+    }
+
+    public Integer GetGymnasteCount(){
+        return gymnastes.size();
+    }
 
     public void StartFigureCompetition(){}
 }

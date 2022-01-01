@@ -9,7 +9,13 @@ public class Judge
     private NumeriqueCard numeriqueCard ;
     private AssignementCertificate assignementCertificate;
 
-    public Judge(String firstName,String lastName,Integer matricule){}
+    public Judge(String firstName,String lastName,Integer matricule){
+        this.numeriqueCard = new NumeriqueCard();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.matricule = matricule;
+
+    }
 
     public String GetFirstName(){
         return firstName;
@@ -35,5 +41,9 @@ public class Judge
     public Integer GetFigureEvaluation(){
         return numeriqueCard.GetNote();
     } 
+
+    public void SetAssignementCertificate(AssignementCertificate certificate){
+        this.assignementCertificate = certificate;
+    }
     
 }
