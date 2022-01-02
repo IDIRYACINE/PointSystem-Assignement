@@ -1,25 +1,36 @@
-package Src;
+package Src.Engine;
 
 import java.util.ArrayList;
+
+import Src.Compilateur;
+import Src.Figure;
+import Src.Gymnaste;
+import Src.Judge;
+import Src.Team;
 
 public class Engine {
     private  ArrayList<Gymnaste>  gymnastes ;
     private ArrayList<Judge>  judges ;
     private ArrayList<Team>  teams;
-    private  Compilateur compilateur ;
+    private Compilateur compilateur ;
 
     public Engine(Compilateur compilateur ){
         this.compilateur = compilateur;
     }
 
-    private void AnounceGymnasteId(Gymnaste gymnaste){
+    private void AnounceAndEvauateGymnaste(Gymnaste gymnaste , Figure figure){
+
+        compilateur.SetEvaluatedGymnasteId(gymnaste.GetId());
+        compilateur.SetEvaluatedFigure(figure);
+        Judge judge;
 
         for (int i=0 ; i > judges.size() ;i++){
-            judges.get(i).EvaluateGymnasteFigure(gymnaste.GetId(), figure);
+            judge = judges.get(i);
+            judge.SetEvaluatedGymnasteId(gymnaste.GetId());
+            judge.EvaluateGymnasteFigure(figure);
+            compilateur.retrieveNoteFromJudge(judge);
         }
-
-        compilateur.CompileRoundNotes();
-
+        compilateur.CompileGymnasteNotes();
     }
 
     public void AppendGymnaste(Gymnaste gymnaste ){
@@ -62,5 +73,11 @@ public class Engine {
         return gymnastes.size();
     }
 
-    public void StartFigureCompetition(){}
+    public void StartFigureCompetition(Figure figure){
+        for (int i = 0 ; i < gymnastes.size() ; i++){
+            AnounceAndEvauateGymnaste(gymnastes.get(i), figure);
+        }
+    }
+
+    
 }

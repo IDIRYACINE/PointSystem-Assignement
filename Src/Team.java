@@ -5,8 +5,7 @@ import java.util.ArrayList;
 public class Team {
     private ArrayList<Gymnaste> gymnastes ;
     private Routine routine ; 
-    public Team(){}
-
+   
     public void AppendGymnaste(Gymnaste gymnaste){
         gymnastes.add(gymnaste);
     }
@@ -22,5 +21,5 @@ public class Team {
     public void SetRoutine(Routine routine){
         this.routine = routine;
     }
-    
+
 }

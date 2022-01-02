@@ -2,7 +2,7 @@ package Src;
 
 import java.util.ArrayList;
 
-class Gymnaste{
+public class Gymnaste{
     private String firstName ;   
     private String lastName ;
     private Integer age  ;

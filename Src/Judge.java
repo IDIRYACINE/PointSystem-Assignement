@@ -8,6 +8,7 @@ public class Judge
     private Integer matricule  ;
     private NumeriqueCard numeriqueCard ;
     private AssignementCertificate assignementCertificate;
+    private Integer evaluatedGymnasteId;
 
     public Judge(String firstName,String lastName,Integer matricule){
         this.numeriqueCard = new NumeriqueCard();
@@ -33,7 +34,11 @@ public class Judge
         return assignementCertificate.getNextEngine();
     }
 
-    public void EvaluateGymnasteFigure(Integer gymnasteId , Figure figure) {
+    public void SetEvaluatedGymnasteId(Integer id ){
+        evaluatedGymnasteId = id;
+    }
+
+    public void EvaluateGymnasteFigure(Figure figure) {
         int note = 0;
         numeriqueCard.SetNote(note);
     }
