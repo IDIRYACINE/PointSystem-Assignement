@@ -1,4 +1,4 @@
-package Src;
+package Src.Judge;
 
 public class NumeriqueCard {
     private Integer note;  

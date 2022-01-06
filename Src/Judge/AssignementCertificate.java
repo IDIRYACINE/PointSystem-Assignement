@@ -1,4 +1,4 @@
-package Src;
+package Src.Judge;
 
 import java.util.ArrayList;
 

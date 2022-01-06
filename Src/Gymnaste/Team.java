@@ -1,4 +1,4 @@
-package Src;
+package Src.Gymnaste;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,11 @@ public class Team {
     private ArrayList<Gymnaste> gymnastes ;
     private Routine routine ; 
    
+    public Team(){
+        gymnastes = new ArrayList<Gymnaste>();
+        
+    }
+
     public void AppendGymnaste(Gymnaste gymnaste){
         gymnastes.add(gymnaste);
     }

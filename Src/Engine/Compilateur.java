@@ -1,7 +1,9 @@
-package Src;
+package Src.Engine;
 
 import java.util.ArrayList;
 
+import Src.Gymnaste.Figure;
+import Src.Judge.Judge;
 import Src.NotesSystem.GymnasteNotesRegister;
 
 public class Compilateur {
@@ -11,9 +13,10 @@ public class Compilateur {
     private Integer engineId;
     private ArrayList<Integer> gymnasteNotes;
   
-    public Compilateur(Integer engineId) {
+    public Compilateur(Integer engineId , GymnasteNotesRegister register) {
         gymnasteNotes = new ArrayList<Integer>();
         this.engineId = engineId;
+        notesRegister = register;
     }
 
     private  ArrayList<Integer>  purgeHigestAndLowestNote(){

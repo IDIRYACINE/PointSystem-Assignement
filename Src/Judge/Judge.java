@@ -1,4 +1,6 @@
-package Src;
+package Src.Judge;
+
+import Src.Gymnaste.Figure;
 
 public class Judge
 {

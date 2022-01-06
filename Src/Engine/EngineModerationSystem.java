@@ -1,17 +1,23 @@
 package Src.Engine;
 
 import java.util.ArrayList;
-import Src.Figure;
-import Src.Judge;
+import java.util.Random;
+
+import Src.Gymnaste.Figure;
+import Src.Gymnaste.Gymnaste;
+import Src.Judge.Judge;
+import Src.NotesSystem.GymnasteNotesRegister;
 
 public class EngineModerationSystem {
-    private ArrayList<Engine> engines ;
-    private Integer currentEngineIndex  ;
+
+    private ArrayList<Engine> engines;
+    private Integer currentEngineIndex;
     private CompetitionMode mode;
 
-    public EngineModerationSystem(Integer engineCount){
-        currentEngineIndex = -1;
+
+    public EngineModerationSystem(){
         engines = new ArrayList<Engine>();
+
     }
     
     private void CheckJudgesForReAssignement(Engine engine){
@@ -28,22 +34,65 @@ public class EngineModerationSystem {
         }
     }
 
+    private void AnounceAndEvauateGymnastes(Engine engine ){
+        int gymnasteIndex = 0 ;
+        while(engine.GetGymnasteCount() > 0){
+            Gymnaste gymnaste = engine.GetGymnaste(gymnasteIndex);
+
+            engine.AnounceAndEvauateGymnaste(gymnaste);
+            engine.RemoveGymnaste(gymnaste);
+
+            if(currentEngineIndex +  1 < engines.size()){
+                engines.get(currentEngineIndex + 1).AppendGymnaste(gymnaste);
+            }
+
+        }
+    }
+
     private Figure randomFigure(){
+        Random random = new Random();
+        
         return Figure.Anneaux;
     }
 
     public void StartEngineCompetition(){
-        Figure figure = randomFigure();
-        for (int i = 0 ; i < engines.size() ; i++){
-            Engine engine = engines.get(i);
-            engine.StartFigureCompetition(figure);
+
+        while (currentEngineIndex < engines.size()){
+
+            Figure figure = randomFigure();
+
+            Engine engine = engines.get(currentEngineIndex);
+            
+            engine.SetFigureCompetition(figure);
+
+            AnounceAndEvauateGymnastes(engine);
+
             CheckJudgesForReAssignement(engine);
         }
 
     }
 
-    public void setCompetitionMode(CompetitionMode mode) {
+    public void SetUpCompetition(CompetitionMode mode ) {
+        currentEngineIndex = 0;
         this.mode = mode;
+
+    }
+
+    
+    public void initEngines(Integer engineCount){
+        Compilateur compilateur;
+        GymnasteNotesRegister register = GymnasteNotesRegister.getInstance();
+
+       for (int i = 0 ; i < engineCount ; i++){
+           compilateur = new Compilateur(i, register);
+
+           engines.add(new Engine(compilateur));
+       }
+
+    }
+
+    public void AssigneGymnasteToEngine(int engineId, Gymnaste gymnaste) {
+        engines.get(engineId).AppendGymnaste(gymnaste);
     }
     
 }

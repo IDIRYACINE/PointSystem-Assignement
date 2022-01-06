@@ -1,10 +1,13 @@
-package Src;
+package Src.RegistrationSystem;
+
+import Src.Gymnaste.Gymnaste;
+import Src.Judge.Judge;
 
 public class RegistrationAgent {
     private RegistrationSystem registrationSystem;
     private static int currentGymnasteId = 0;
 
-    public RegistrationAgent(  ){
+    public RegistrationAgent(){
         registrationSystem = new RegistrationSystem();
     }
 
@@ -18,5 +21,15 @@ public class RegistrationAgent {
         Judge judge = new Judge(firstName, lastName, matricule);
         registrationSystem.RegisterJudge(judge);
     }
+
+    public void RegisterEngines(Integer enginesCount){
+        registrationSystem.RegisterEngines(enginesCount);
+    }
+
+
+
+
+
+
 
 }

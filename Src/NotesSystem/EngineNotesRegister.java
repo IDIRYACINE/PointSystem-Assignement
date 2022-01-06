@@ -3,7 +3,7 @@ package Src.NotesSystem;
 import java.util.HashMap;
 import java.util.Map;
 
-import Src.Figure;
+import Src.Gymnaste.Figure;
 
 public class EngineNotesRegister {
     private Map<Integer , TeamNote> teamNotes;

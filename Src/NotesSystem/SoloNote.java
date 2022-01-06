@@ -3,7 +3,7 @@ package Src.NotesSystem;
 import java.util.HashMap;
 import java.util.Map;
 
-import Src.Figure;
+import Src.Gymnaste.Figure;
 
 public class SoloNote {
     private Map<Figure , Double> notes;

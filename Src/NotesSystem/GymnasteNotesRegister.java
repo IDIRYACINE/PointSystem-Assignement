@@ -3,16 +3,27 @@ package Src.NotesSystem;
 import java.util.HashMap;
 import java.util.Map;
 
-import Src.Figure;
 import Src.Engine.CompetitionMode;
+import Src.Gymnaste.Figure;
 
 public class GymnasteNotesRegister {
+    private static GymnasteNotesRegister instance ;
+
     private Map<Integer , EngineNotesRegister> engineNotesRegister ;
 
-    public GymnasteNotesRegister() {
-        engineNotesRegister = new HashMap<Integer ,EngineNotesRegister>();
+    public static GymnasteNotesRegister getInstance() {
+        if (instance != null){
+            return instance;
+        }   
+        else{
+            instance = new GymnasteNotesRegister();
+            return instance;
+        }
     }
 
+    private GymnasteNotesRegister(){
+        engineNotesRegister = new HashMap<Integer ,EngineNotesRegister>();
+    }
 
     public void RegisterTeamNote(Integer engineId,Integer teamId , double note  ){
         if(engineNotesRegister.containsKey(engineId)){
