@@ -8,10 +8,10 @@ public class Gymnaste{
     private Integer age  ;
     private String adresse  ;
     private String teamName ;
-    private Integer participationId ;
+    private String participationId ;
     private ArrayList<Integer> notes ;
     
-    public Gymnaste(String firstName,String lastName,Integer id,Integer age,String addresse,String teamName) {
+    public Gymnaste(String firstName,String lastName,String id,Integer age,String addresse,String teamName) {
         this.teamName = teamName;
         this.adresse = addresse;
         this.lastName = lastName;
@@ -36,7 +36,7 @@ public class Gymnaste{
     public String GetTeamName(){
         return teamName;
     }
-    public Integer GetId(){
+    public String GetId(){
         return participationId;
     }
 

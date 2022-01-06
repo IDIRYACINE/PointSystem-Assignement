@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Routine {
     private ArrayList<Figure> figures;
-    private int currentFigure = -1;
 
     public Routine(){
         figures = new ArrayList<Figure>();
@@ -18,12 +17,11 @@ public class Routine {
         figures.remove(figure);
     }
 
-    public Figure GetFigure(){
-        currentFigure++;
-        return figures.get(currentFigure);
+    public Figure GetFigure(Integer index){
+        return figures.get(index);
     }
 
-    public Integer GetFIgureCount(){
+    public Integer GetFigureCount(){
         return figures.size();
     }
 

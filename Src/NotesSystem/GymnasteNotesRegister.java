@@ -3,7 +3,6 @@ package Src.NotesSystem;
 import java.util.HashMap;
 import java.util.Map;
 
-import Src.Engine.CompetitionMode;
 import Src.Gymnaste.Figure;
 
 public class GymnasteNotesRegister {
@@ -25,7 +24,7 @@ public class GymnasteNotesRegister {
         engineNotesRegister = new HashMap<Integer ,EngineNotesRegister>();
     }
 
-    public void RegisterTeamNote(Integer engineId,Integer teamId , double note  ){
+    public void RegisterTeamNote(Integer engineId,String teamId , double note  ){
         if(engineNotesRegister.containsKey(engineId)){
             engineNotesRegister.get(engineId).registerTeamNote(teamId, note);
         }
@@ -37,7 +36,7 @@ public class GymnasteNotesRegister {
     }
 
 
-    public void RegisterSoloNote(Integer gymnasteId, Figure figure, Integer engineId, double note) {
+    public void RegisterSoloNote(String gymnasteId, Figure figure, Integer engineId, double note) {
         if(engineNotesRegister.containsKey(engineId)){
             engineNotesRegister.get(engineId).RegisterGymnasteNote(gymnasteId, figure, note);
         }
@@ -47,12 +46,14 @@ public class GymnasteNotesRegister {
         }
     }
 
-
-    public void SetEngine(String engineId ){}
-
-    public void SetCompetitionMode(CompetitionMode mode ){
-
+    public TeamNote getEngineTeamNotes(int index) {
+        return engineNotesRegister.get(index).getBestTeam();
     }
 
+    public SoloNote getEngineFigureNotes(int index) {
+        return engineNotesRegister.get(index).getBestGymnaste();
+    }
+
+    
 
 }

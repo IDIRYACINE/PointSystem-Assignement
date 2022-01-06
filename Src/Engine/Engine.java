@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Src.Gymnaste.Figure;
 import Src.Gymnaste.Gymnaste;
+import Src.Gymnaste.Routine;
 import Src.Gymnaste.Team;
 import Src.Judge.Judge;
 
@@ -19,9 +20,10 @@ public class Engine {
         this.compilateur = compilateur;
         gymnastes = new ArrayList<>();
         judges = new ArrayList<>();
+        teams = new ArrayList<>();
     }
 
-    public void AnounceAndEvauateGymnaste(Gymnaste gymnaste){
+    public void AnounceAndEvauateGymnaste(Gymnaste gymnaste ){
 
         compilateur.SetEvaluatedGymnasteId(gymnaste.GetId());
         compilateur.SetEvaluatedFigure(figure);
@@ -35,6 +37,7 @@ public class Engine {
         }
 
         compilateur.CompileGymnasteNotes();
+        
     }
 
     public void AppendGymnaste(Gymnaste gymnaste ){
@@ -79,6 +82,22 @@ public class Engine {
 
     public void SetFigureCompetition(Figure figure) {
         this.figure = figure;
+    }
+
+    public void AnounceAndEvaluateGymnasteRoutine(Gymnaste gymnaste, Routine routine) {
+        compilateur.SetEvaluatedGymnasteId(gymnaste.GetId());
+
+        Judge judge;
+        for (int j = 0 ; j< routine.GetFigureCount();j++){
+            for (int i=0 ; i > judges.size() ;i++){
+                judge = judges.get(i);
+                judge.SetEvaluatedGymnasteId(gymnaste.GetId());
+                judge.EvaluateGymnasteFigure(routine.GetFigure(j));
+                compilateur.retrieveNoteFromJudge(judge);
+            }    
+        }
+        
+        compilateur.CompileGymnasteRoutineNotes(gymnaste.GetTeamName());
     }
 
     

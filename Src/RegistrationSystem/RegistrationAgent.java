@@ -5,16 +5,20 @@ import Src.Judge.Judge;
 
 public class RegistrationAgent {
     private RegistrationSystem registrationSystem;
-    private static int currentGymnasteId = 0;
+    private static String currentGymnasteId = "";
+    private Integer gymnasteCount = -1;
+    
 
     public RegistrationAgent(){
         registrationSystem = new RegistrationSystem();
     }
 
     public void RegisterGymnaste(String firstName , String lastName ,Integer age,String addresse,String teamName){
+        gymnasteCount++;
+        currentGymnasteId = "gymnaste" + currentGymnasteId;
+
         Gymnaste gymnaste = new Gymnaste(firstName, lastName, currentGymnasteId, age, addresse, teamName);
         registrationSystem.RegisterGymnaste(gymnaste);
-        currentGymnasteId++;
     }
 
     public void RegisterJudge(String firstName ,String lastName  ,Integer matricule){

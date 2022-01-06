@@ -5,5 +5,6 @@ public class Main {
         PointGym pointGym = new PointGym();
         pointGym.SetUpSystem(12, 20, 3);
         pointGym.StartFirstDayCompetition();
+        pointGym.StartSecondDayCompetition();
     }
 }

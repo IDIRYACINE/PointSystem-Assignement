@@ -3,12 +3,13 @@ package Src.Engine;
 import java.util.ArrayList;
 
 import Src.Gymnaste.Figure;
+import Src.Gymnaste.Routine;
 import Src.Judge.Judge;
 import Src.NotesSystem.GymnasteNotesRegister;
 
 public class Compilateur {
     private GymnasteNotesRegister notesRegister;
-    private Integer evaluatedGymnasteId;
+    private String evaluatedGymnasteId;
     private Figure evaluatedFigure ;
     private Integer engineId;
     private ArrayList<Integer> gymnasteNotes;
@@ -50,16 +51,10 @@ public class Compilateur {
         return result/gymnasteNotes.size();
     }
     
-    public void SetEvaluatedGymnasteId(Integer id ){
+    public void SetEvaluatedGymnasteId(String id ){
         evaluatedGymnasteId = id;
     }
 
-    public void CompileGymnasteNotes(){
-        gymnasteNotes = purgeHigestAndLowestNote();
-        double note = calculateGymnasteNote();
-
-        notesRegister.RegisterSoloNote(evaluatedGymnasteId , evaluatedFigure ,engineId,note);
-    }
 
     public void SetEvaluatedFigure(Figure figure) {
         evaluatedFigure = figure;
@@ -68,4 +63,20 @@ public class Compilateur {
     public void retrieveNoteFromJudge(Judge judge) {
         gymnasteNotes.add(judge.GetFigureEvaluation());
     }
+
+    public void CompileGymnasteRoutineNotes(String teamId) {
+        gymnasteNotes = purgeHigestAndLowestNote();
+        double note = calculateGymnasteNote();
+
+        notesRegister.RegisterTeamNote(engineId,teamId,note);
+    }
+
+
+    public void CompileGymnasteNotes(){
+        gymnasteNotes = purgeHigestAndLowestNote();
+        double note = calculateGymnasteNote();
+
+        notesRegister.RegisterSoloNote(evaluatedGymnasteId , evaluatedFigure ,engineId,note);
+    }
+
 }
