@@ -24,16 +24,15 @@ public class Engine {
     }
 
     public void AnounceAndEvauateGymnaste(Gymnaste gymnaste ){
-
         compilateur.SetEvaluatedGymnasteId(gymnaste.GetId());
         compilateur.SetEvaluatedFigure(figure);
         Judge judge;
 
-        for (int i=0 ; i > judges.size() ;i++){
+        for (int i = 0 ; i < judges.size() ;i++){
             judge = judges.get(i);
             judge.SetEvaluatedGymnasteId(gymnaste.GetId());
             judge.EvaluateGymnasteFigure(figure);
-            compilateur.retrieveNoteFromJudge(judge);
+            compilateur.RetrieveNoteFromJudge(judge);
         }
 
         compilateur.CompileGymnasteNotes();
@@ -49,7 +48,9 @@ public class Engine {
     }
 
     public void AppendJudge(Judge judge){
-        judges.add(judge);
+        if (!judges.contains(judge)){
+            judges.add(judge);
+        }
     }
 
     public void RemoveJudge(Judge judge ){
@@ -89,15 +90,34 @@ public class Engine {
 
         Judge judge;
         for (int j = 0 ; j< routine.GetFigureCount();j++){
-            for (int i=0 ; i > judges.size() ;i++){
+            for (int i = 0 ; i < judges.size() ;i++){
                 judge = judges.get(i);
                 judge.SetEvaluatedGymnasteId(gymnaste.GetId());
                 judge.EvaluateGymnasteFigure(routine.GetFigure(j));
-                compilateur.retrieveNoteFromJudge(judge);
+
+                compilateur.RetrieveNoteFromJudge(judge);
             }    
         }
         
         compilateur.CompileGymnasteRoutineNotes(gymnaste.GetTeamName());
+    }
+
+    public void Reset() {
+        for (Judge judge : judges){
+            judge.Reset();
+        }
+        judges.clear();
+        gymnastes.clear();
+    }
+
+    public void AppendTeam(Team team) {
+        if (!teams.contains(team)){   
+            teams.add(team);
+        }
+    }
+
+    public void RemoveTeam(Team team){
+        teams.remove(team);
     }
 
     

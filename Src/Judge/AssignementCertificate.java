@@ -12,7 +12,16 @@ public class AssignementCertificate {
     } 
 
     public Integer getNextEngine() {
-        currentEngine++;
+        if (currentEngine + 1 < enginesId.size() ){
+            currentEngine++;
+        }
+        else {
+            return -1;
+        }
         return enginesId.get(currentEngine);
+    }
+    
+    public void Reset(){
+        currentEngine = 0;
     }
 }

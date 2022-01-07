@@ -1,5 +1,7 @@
 package Src.RegistrationSystem;
 
+import Src.Engine.CompetitionMode;
+import Src.Engine.EngineModerationSystem;
 import Src.Gymnaste.Gymnaste;
 import Src.Judge.Judge;
 
@@ -30,10 +32,8 @@ public class RegistrationAgent {
         registrationSystem.RegisterEngines(enginesCount);
     }
 
-
-
-
-
-
+    public void AssigneParticipants(CompetitionMode mode, EngineModerationSystem engineModerationSystem) {
+        registrationSystem.AssigneParticipants(mode, engineModerationSystem);
+    }
 
 }

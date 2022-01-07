@@ -16,30 +16,33 @@ public class EngineModerationSystem {
     private Integer currentEngineIndex;
     private CompetitionMode mode;
 
-
     public EngineModerationSystem(){
         engines = new ArrayList<Engine>();
 
     }
-    
+
     private void CheckJudgesForReAssignement(Engine engine){
         int judgeCount = engine.GetJudgeCount();
+        int index = 0;
         Judge judge;
-        while (judgeCount > 0 ){
-            judge = engine.GetJudge(judgeCount - 1);
-            
+
+        while (index < judgeCount ){
+            judge = engine.GetJudge(index);
             int nextEngine = judge.GetNextEngine();
-            if (nextEngine != -1){
+            if ((nextEngine != -1) && (nextEngine != currentEngineIndex)){
                 engine.RemoveJudge(judge);
                 engines.get(nextEngine).AppendJudge(judge);
+                judgeCount = engine.GetJudgeCount();
             }
+
+            index++;
         }
+
     }
 
-    private void AnounceAndEvauateGymnastes(Engine engine ){
-
+    private void AnounceAndEvauateGymnastes(Engine engine){
         if(mode == CompetitionMode.Solo){
-            int gymnasteIndex = 0 ;
+            int gymnasteIndex = engine.GetGymnasteCount() - 1 ;
 
             while(engine.GetGymnasteCount() > 0){
                 Gymnaste gymnaste = engine.GetGymnaste(gymnasteIndex);
@@ -47,18 +50,17 @@ public class EngineModerationSystem {
                 engine.AnounceAndEvauateGymnaste(gymnaste);
                 engine.RemoveGymnaste(gymnaste);
 
-                if(currentEngineIndex +  1 < engines.size()){
+                if(currentEngineIndex + 1 < engines.size()){
                     engines.get(currentEngineIndex + 1).AppendGymnaste(gymnaste);
                 }
-                gymnasteIndex++;
+                gymnasteIndex = engine.GetGymnasteCount() - 1 ;
             }
         }
 
         else{
             int teamIndex = 0 ;
             Routine routine = randomRoutine();
-
-            while(engine.GetTeamCount() > 0){
+            while(teamIndex < engine.GetTeamCount() ){
                 Team team = engine.GetTeam(teamIndex);
                 EvaluateTeamGymnaste(team,routine, engine);
                 teamIndex++;
@@ -67,8 +69,8 @@ public class EngineModerationSystem {
     }    
 
     private void EvaluateTeamGymnaste(Team team ,Routine routine, Engine engine){
-        for (int i =0 ; i < team.GetTeamMembersCount() ; i ++){
 
+        for (int i =0 ; i < team.GetTeamMembersCount() ; i ++){
             Gymnaste gymnaste = team.GetGymnaste(i);
 
             engine.AnounceAndEvaluateGymnasteRoutine(gymnaste , routine);
@@ -125,9 +127,11 @@ public class EngineModerationSystem {
     public void SetUpCompetition(CompetitionMode mode) {
         currentEngineIndex = 0;
         this.mode = mode;
+        for (Engine engine : engines){
+            engine.Reset();
+        }
     }
 
-    
     public void initEngines(Integer engineCount){
         Compilateur compilateur;
         GymnasteNotesRegister register = GymnasteNotesRegister.getInstance();
@@ -142,6 +146,15 @@ public class EngineModerationSystem {
 
     public void AssigneGymnasteToEngine(int engineId, Gymnaste gymnaste) {
         engines.get(engineId).AppendGymnaste(gymnaste);
+    }
+
+    public void AssigneJudgeToEngine(Integer engineId, Judge judge) {
+        engines.get(engineId).AppendJudge(judge);
+
+    }
+
+    public void AssigneTeamToEngine(int engineId, Team team) {
+        engines.get(engineId).AppendTeam(team);
     }
     
 }

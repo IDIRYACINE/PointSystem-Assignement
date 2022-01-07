@@ -1,6 +1,7 @@
 package Src.Judge;
 
 import Src.Gymnaste.Figure;
+import java.util.Random;
 
 public class Judge
 {
@@ -41,7 +42,8 @@ public class Judge
     }
 
     public void EvaluateGymnasteFigure(Figure figure) {
-        int note = 0;
+        Random random = new Random();
+        int note = random.nextInt(10-1 + 1) + 1;
         numeriqueCard.SetNote(note);
     }
 
@@ -51,6 +53,10 @@ public class Judge
 
     public void SetAssignementCertificate(AssignementCertificate certificate){
         this.assignementCertificate = certificate;
+    }
+
+    public void Reset(){
+        assignementCertificate.Reset();
     }
     
 }

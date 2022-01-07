@@ -6,5 +6,6 @@ public class Main {
         pointGym.SetUpSystem(12, 20, 3);
         pointGym.StartFirstDayCompetition();
         pointGym.StartSecondDayCompetition();
+        pointGym.AnnounceCompetitionResults();
     }
 }

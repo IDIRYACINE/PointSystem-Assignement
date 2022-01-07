@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Src.Gymnaste.Figure;
+import Src.PrizeSystem.WinnerParticipant;
 
 public class GymnasteNotesRegister {
     private static GymnasteNotesRegister instance ;
@@ -46,12 +47,14 @@ public class GymnasteNotesRegister {
         }
     }
 
-    public TeamNote getEngineTeamNotes(int index) {
-        return engineNotesRegister.get(index).getBestTeam();
+    public WinnerParticipant getEngineBestTeam(int index) {
+        TeamNote team = engineNotesRegister.get(index).getBestTeam();
+        return new WinnerParticipant(team.getId(), team.getNote(), index);
     }
 
-    public SoloNote getEngineFigureNotes(int index) {
-        return engineNotesRegister.get(index).getBestGymnaste();
+    public WinnerParticipant getEngineBestGymnaste(int index) {
+        SoloNote solo = engineNotesRegister.get(index).getBestGymnaste();
+        return  new WinnerParticipant(solo.getId(), solo.getNote(), index);
     }
 
     

@@ -2,12 +2,16 @@ package Src;
 
 import Src.Engine.CompetitionMode;
 import Src.Engine.EngineModerationSystem;
+import Src.NotesSystem.GymnasteNotesRegister;
+import Src.PrizeSystem.PrizeSystem;
 import Src.RegistrationSystem.RegistrationAgent;
+import Src.RegistrationSystem.RegistrationSystem;
 
 public class PointGym {
     
     private RegistrationAgent registrationAgent ;
     private EngineModerationSystem engineModerationSystem;  
+    private PrizeSystem prizeSystem;
 
     public PointGym() {
         registrationAgent = new RegistrationAgent();
@@ -36,11 +40,9 @@ public class PointGym {
     }
 
     public void SetUpSystem(Integer judgesCount , Integer gymnastesCount , Integer enginesCount){
-
         engineModerationSystem.initEngines(enginesCount);
-
         registrationAgent.RegisterEngines(enginesCount);
-
+        prizeSystem = new PrizeSystem(GymnasteNotesRegister.getInstance(), enginesCount);
 
         String[] Teams = generateTeams(gymnastesCount);
 
@@ -53,20 +55,27 @@ public class PointGym {
         String gymnasteN = "gymnaste";
 
         for (int i = 0 ; i < gymnastesCount ; i++){
-
             RegisterGymnaste(gymnasteN+i, gymnasteN+i+"b", 18, "bba", Teams[i/4]);
         }
-        
     }
+
 
     public void StartFirstDayCompetition() {
         engineModerationSystem.SetUpCompetition(CompetitionMode.Solo);
+        registrationAgent.AssigneParticipants(CompetitionMode.Solo , engineModerationSystem);
         engineModerationSystem.StartEngineCompetition();
     }
 
     public void StartSecondDayCompetition() {
         engineModerationSystem.SetUpCompetition(CompetitionMode.Team);
+        registrationAgent.AssigneParticipants(CompetitionMode.Team , engineModerationSystem);
         engineModerationSystem.StartEngineCompetition();
+    }
+
+    public void AnnounceCompetitionResults(){
+        prizeSystem.CompileWinnersList();
+        prizeSystem.AnounceSoloCompetitionWinners();
+        prizeSystem.AnounceTeamCompetitionWinners();
     }
     
 }

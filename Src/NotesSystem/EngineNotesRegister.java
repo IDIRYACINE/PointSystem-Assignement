@@ -41,9 +41,8 @@ public class EngineNotesRegister {
     public TeamNote getBestTeam() {
         double bestNote = -1;
         TeamNote bestTeam = null;
-
         for(TeamNote teamNote : teamNotes.values()){
-            if(teamNote.getNote()> bestNote){
+            if(teamNote.getNote() > bestNote){
                 bestTeam = teamNote;
             }
         }
@@ -55,8 +54,9 @@ public class EngineNotesRegister {
         double bestNote = -1;
         SoloNote bestGymnaste = null;
 
+        
         for(SoloNote gymnasNote : gymnasteNotes.values()){
-            if(gymnasNote.getNote()> bestNote){
+            if(gymnasNote.getNote() > bestNote){
                 bestGymnaste = gymnasNote;
             }
         }

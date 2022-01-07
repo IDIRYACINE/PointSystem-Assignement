@@ -50,15 +50,20 @@ public class RegistrationSystem {
         
     }
 
-    public void AssigneParticipants(CompetitionMode mode , EngineModerationSystem moderationSystem){
-       
+    public void AssigneParticipants(CompetitionMode mode , EngineModerationSystem moderationSystem){  
         if (mode == CompetitionMode.Solo){
-            AssigneRandomly(moderationSystem);
+            AssigneGymnastesRandomly(moderationSystem);
         }
         else{
             AssigneTeams(moderationSystem);
         }
+        AssigneJudges(moderationSystem);
+    }
 
+    private void AssigneJudges(EngineModerationSystem moderationSystem) {
+        for (Judge judge : judges) {
+            moderationSystem.AssigneJudgeToEngine(judge.GetNextEngine(),judge);
+        }
     }
 
     private void AssigneTeams(EngineModerationSystem moderationSystem){
@@ -68,24 +73,22 @@ public class RegistrationSystem {
         Team teamTemp;
 
         for (Map.Entry<String, Team> team : teams.entrySet()) {
-            engineId = random.nextInt(enginesCount + 1 ) + 1;
-            
+            engineId = random.nextInt(enginesCount) ;
             teamTemp = team.getValue();
-
+                moderationSystem.AssigneTeamToEngine(engineId , teamTemp);
             for (int i = 0 ; i < teamTemp.GetTeamMembersCount() ; i++){
-                
                 moderationSystem.AssigneGymnasteToEngine(engineId, teamTemp.GetGymnaste(i));
             }
-
         }
+
     }
 
-    private void AssigneRandomly(EngineModerationSystem moderationSystem){
+    private void AssigneGymnastesRandomly(EngineModerationSystem moderationSystem){
         Random random = new Random();
         int engineId ;
         int enginesCount = availlableEngines.size();
         for (Gymnaste gymnaste : gymnastes) {
-            engineId = random.nextInt(enginesCount + 1 ) + 1;
+            engineId = random.nextInt(enginesCount ) ;
             moderationSystem.AssigneGymnasteToEngine(engineId , gymnaste);
         }
 

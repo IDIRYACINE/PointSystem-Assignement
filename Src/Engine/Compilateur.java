@@ -46,8 +46,8 @@ public class Compilateur {
         double result = 0;
         for (int i = 0 ; i < gymnasteNotes.size();i++){
             result += gymnasteNotes.get(i);
-        }
 
+        }
         return result/gymnasteNotes.size();
     }
     
@@ -55,27 +55,23 @@ public class Compilateur {
         evaluatedGymnasteId = id;
     }
 
-
     public void SetEvaluatedFigure(Figure figure) {
         evaluatedFigure = figure;
     }
 
-    public void retrieveNoteFromJudge(Judge judge) {
+    public void RetrieveNoteFromJudge(Judge judge) {
         gymnasteNotes.add(judge.GetFigureEvaluation());
     }
 
     public void CompileGymnasteRoutineNotes(String teamId) {
         gymnasteNotes = purgeHigestAndLowestNote();
         double note = calculateGymnasteNote();
-
         notesRegister.RegisterTeamNote(engineId,teamId,note);
     }
-
 
     public void CompileGymnasteNotes(){
         gymnasteNotes = purgeHigestAndLowestNote();
         double note = calculateGymnasteNote();
-
         notesRegister.RegisterSoloNote(evaluatedGymnasteId , evaluatedFigure ,engineId,note);
     }
 
