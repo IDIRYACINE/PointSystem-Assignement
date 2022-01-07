@@ -5,7 +5,11 @@ import java.util.Random;
 
 public class Judge
 {
-
+    /*
+        evaluatedGymnasteId is not used for anything just a redandancy to follow the exercise
+        Anounic gymnaste Id to judges
+    */
+    
     private String firstName ;
     private String lastName ;
     private Integer matricule  ;

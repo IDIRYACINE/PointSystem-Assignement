@@ -5,7 +5,6 @@ import Src.Engine.EngineModerationSystem;
 import Src.NotesSystem.GymnasteNotesRegister;
 import Src.PrizeSystem.PrizeSystem;
 import Src.RegistrationSystem.RegistrationAgent;
-import Src.RegistrationSystem.RegistrationSystem;
 
 public class PointGym {
     
@@ -40,6 +39,10 @@ public class PointGym {
     }
 
     public void SetUpSystem(Integer judgesCount , Integer gymnastesCount , Integer enginesCount){
+        /*** 
+        A helper method to Register Paricipants . it also provide GymnasteData , create/init engines , and other dependecies
+        ***/
+        
         engineModerationSystem.initEngines(enginesCount);
         registrationAgent.RegisterEngines(enginesCount);
         prizeSystem = new PrizeSystem(GymnasteNotesRegister.getInstance(), enginesCount);
@@ -73,6 +76,10 @@ public class PointGym {
     }
 
     public void AnnounceCompetitionResults(){
+        /*
+            CompileWinnersList must be called first as it generates the list of winners in both formats
+            Solo and Teams the process was merged 
+        */
         prizeSystem.CompileWinnersList();
         prizeSystem.AnounceSoloCompetitionWinners();
         prizeSystem.AnounceTeamCompetitionWinners();

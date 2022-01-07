@@ -7,8 +7,11 @@ import Src.Gymnaste.Figure;
 import Src.PrizeSystem.WinnerParticipant;
 
 public class GymnasteNotesRegister {
-    private static GymnasteNotesRegister instance ;
+    /*
+        a map was used so that each engine would get a correspending registre
+    */
 
+    private static GymnasteNotesRegister instance ;
     private Map<Integer , EngineNotesRegister> engineNotesRegister ;
 
     public static GymnasteNotesRegister getInstance() {
@@ -26,6 +29,11 @@ public class GymnasteNotesRegister {
     }
 
     public void RegisterTeamNote(Integer engineId,String teamId , double note  ){
+        /*
+            This will register the routine note of each gymnaste in the team,
+            further calculations are done before retriving it
+        */
+
         if(engineNotesRegister.containsKey(engineId)){
             engineNotesRegister.get(engineId).registerTeamNote(teamId, note);
         }
@@ -38,6 +46,9 @@ public class GymnasteNotesRegister {
 
 
     public void RegisterSoloNote(String gymnasteId, Figure figure, Integer engineId, double note) {
+        /*
+            Solo refers to the individual gymnaste nots on the first day (Solo Competition)
+        */
         if(engineNotesRegister.containsKey(engineId)){
             engineNotesRegister.get(engineId).RegisterGymnasteNote(gymnasteId, figure, note);
         }
@@ -48,6 +59,7 @@ public class GymnasteNotesRegister {
     }
 
     public WinnerParticipant getEngineBestTeam(int index) {
+        
         TeamNote team = engineNotesRegister.get(index).getBestTeam();
         return new WinnerParticipant(team.getId(), team.getNote(), index);
     }
@@ -56,7 +68,5 @@ public class GymnasteNotesRegister {
         SoloNote solo = engineNotesRegister.get(index).getBestGymnaste();
         return  new WinnerParticipant(solo.getId(), solo.getNote(), index);
     }
-
     
-
 }

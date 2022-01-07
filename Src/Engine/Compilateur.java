@@ -3,11 +3,18 @@ package Src.Engine;
 import java.util.ArrayList;
 
 import Src.Gymnaste.Figure;
-import Src.Gymnaste.Routine;
 import Src.Judge.Judge;
 import Src.NotesSystem.GymnasteNotesRegister;
 
 public class Compilateur {
+    /* 
+        engineId : the id of engine this compilateur is assigned to
+        gymnasteNotes : the list of notes the judges has give the gymnaste
+        example 6 judges: 
+        after each judge anounce the note , the compilateur would retrieve it
+        and cache it on gymnasteNotes before calculating the final note
+    */
+
     private GymnasteNotesRegister notesRegister;
     private String evaluatedGymnasteId;
     private Figure evaluatedFigure ;
@@ -20,7 +27,7 @@ public class Compilateur {
         notesRegister = register;
     }
 
-    private  ArrayList<Integer>  purgeHigestAndLowestNote(){
+    private  ArrayList<Integer>  RemoveHigestAndLowestNote(){
         int highestNoteIndex = 0;
         int lowestNoteIndex = 0;
 
@@ -42,7 +49,7 @@ public class Compilateur {
         return notes;
     }
 
-    private double calculateGymnasteNote(){
+    private double CalculateGymnasteNote(){
         double result = 0;
         for (int i = 0 ; i < gymnasteNotes.size();i++){
             result += gymnasteNotes.get(i);
@@ -62,16 +69,21 @@ public class Compilateur {
     public void RetrieveNoteFromJudge(Judge judge) {
         gymnasteNotes.add(judge.GetFigureEvaluation());
     }
+    /*
+        Both compile methods are used to regsiter the gymnaste notes in the system
+        RoutniesNotes is used on TeamCompetitions
+        Notes is used SoloCompetitions 
+    */
 
     public void CompileGymnasteRoutineNotes(String teamId) {
-        gymnasteNotes = purgeHigestAndLowestNote();
-        double note = calculateGymnasteNote();
+        gymnasteNotes = RemoveHigestAndLowestNote();
+        double note = CalculateGymnasteNote();
         notesRegister.RegisterTeamNote(engineId,teamId,note);
     }
 
     public void CompileGymnasteNotes(){
-        gymnasteNotes = purgeHigestAndLowestNote();
-        double note = calculateGymnasteNote();
+        gymnasteNotes = RemoveHigestAndLowestNote();
+        double note = CalculateGymnasteNote();
         notesRegister.RegisterSoloNote(evaluatedGymnasteId , evaluatedFigure ,engineId,note);
     }
 

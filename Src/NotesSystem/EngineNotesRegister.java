@@ -1,5 +1,6 @@
 package Src.NotesSystem;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,9 +40,10 @@ public class EngineNotesRegister {
     }
 
     public TeamNote getBestTeam() {
+        Collection<TeamNote> notes = teamNotes.values();
         double bestNote = -1;
-        TeamNote bestTeam = null;
-        for(TeamNote teamNote : teamNotes.values()){
+        TeamNote bestTeam = notes.iterator().next();
+        for(TeamNote teamNote : notes){
             if(teamNote.getNote() > bestNote){
                 bestTeam = teamNote;
             }
@@ -51,15 +53,16 @@ public class EngineNotesRegister {
     }
 
     public SoloNote getBestGymnaste() {
+        Collection<SoloNote> notes = gymnasteNotes.values();
         double bestNote = -1;
-        SoloNote bestGymnaste = null;
+        SoloNote bestGymnaste = notes.iterator().next();
 
-        
-        for(SoloNote gymnasNote : gymnasteNotes.values()){
+        for(SoloNote gymnasNote : notes){
             if(gymnasNote.getNote() > bestNote){
                 bestGymnaste = gymnasNote;
             }
         }
+
         return bestGymnaste;
     }
 

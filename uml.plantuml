@@ -1,0 +1,314 @@
+@startuml systems
+
+package Engine {
+    
+class Compilateur{
+    -GymnasteNotesRegister notesRegister
+    -String evaluatedGymnasteId
+    -Figure evaluatedFigure 
+    -Integer engineId
+    -ArrayList<Integer> gymnasteNotes
+  
+    +Compilateur(Integer engineId , GymnasteNotesRegister register)
+    -ArrayList<Integer>  purgeHigestAndLowestNote()
+    -double calculateGymnasteNote()
+    +void SetEvaluatedGymnasteId(String id )
+    +void SetEvaluatedFigure(Figure figure)
+    +void RetrieveNoteFromJudge(Judge judge)
+    +void CompileGymnasteRoutineNotes(String teamId)
+    +void CompileGymnasteNotes()    
+}
+
+enum CompetitionMode{
+    Solo,Team
+}
+
+class Engine{
+    -ArrayList<Gymnaste> gymnastes 
+    -ArrayList<Judge> judges 
+    -ArrayList<Team> teams
+    -Compilateur compilateur 
+    -Figure figure
+
+    +Engine(Compilateur compilateur)
+    +void AnounceAndEvauateGymnaste(Gymnaste gymnaste )
+    +void AppendGymnaste(Gymnaste gymnaste )
+    +void RemoveGymnaste( Gymnaste gymnaste )
+    +void AppendJudge(Judge judge)
+    +void RemoveJudge(Judge judge )
+    +Team GetTeam(Integer index )
+    +Gymnaste GetGymnaste(Integer index )
+    +Judge GetJudge(Integer index )
+    +Integer GetJudgeCount()
+    +Integer GetTeamCount()
+    +Integer GetGymnasteCount()
+    +void SetFigureCompetition(Figure figure)
+    +void AnounceAndEvaluateGymnasteRoutine(Gymnaste gymnaste, Routine routine)
+    +void Reset() 
+    +void AppendTeam(Team team)
+    +void RemoveTeam(Team team)
+}
+    
+class EngineModerationSystem{
+    -ArrayList<Engine> engines
+    -Integer currentEngineIndex
+    -CompetitionMode mode
+
+    +EngineModerationSystem()
+    -void CheckJudgesForReAssignement(Engine engine)
+    -void AnounceAndEvauateGymnastes(Engine engine)
+    -void EvaluateTeamGymnaste(Team team ,Routine routine, Engine engine)
+    -Figure randomFigure()
+    -Routine randomRoutine()
+    +void StartEngineCompetition()
+    +void SetUpCompetition(CompetitionMode mode)
+    +void initEngines(Integer engineCount)
+    +void AssigneGymnasteToEngine(int engineId, Gymnaste gymnaste) 
+    +void AssigneJudgeToEngine(Integer engineId, Judge judge)
+    +void AssigneTeamToEngine(int engineId, Team team) 
+}
+
+}
+
+
+package Gymnaste{
+ 
+class Gymnaste{
+    -String firstName    
+    -String lastName 
+    -Integer age  
+    -String adresse  
+    -String teamName 
+    -String participationId 
+    -ArrayList<Integer> notes 
+
+    +Gymnaste(String firstName,String lastName,String id,Integer age,String addresse,String teamName)
+    +String GetFirstName()
+    +String GetLastName()
+    +Integer GetAge() 
+    +String GetAddresse() 
+    +String GetTeamName()
+    +String GetId()
+    +void setNote(Integer note)
+
+}
+
+class Team{
+    -ArrayList<Gymnaste> gymnastes 
+    -Routine routine  
+    +Team()
+    +Gymnaste GetGymnaste(Integer index)
+    +Integer GetTeamMembersCount()
+    +void SetRoutine(Routine routine)
+}
+
+enum Figure{
+    Anneaux,ChevalDarçon,Poutre,BarresParallèles
+}
+  
+class Routine{
+    -ArrayList<Figure> figures
+    +Routine()
+    +void AppendFigure(Figure figure)
+    +void RemoveFigure(Figure figure)
+    +Figure GetFigure(Integer index)
+}
+}
+
+package Judge{
+  
+class Judge{
+    -String firstName 
+    -String lastName 
+    -Integer matricule  
+    -NumeriqueCard numeriqueCard 
+    -AssignementCertificate assignementCertificate
+    -String evaluatedGymnasteId
+    +Judge(String firstName,String lastName,Integer matricule)
+    +String GetFirstName()
+    +String GetLastName() 
+    +Integer GetMatricule() 
+    +Integer GetNextEngine()
+    +void SetEvaluatedGymnasteId(String id )
+    +void EvaluateGymnasteFigure(Figure figure)
+    +Integer GetFigureEvaluation()
+    +void SetAssignementCertificate(AssignementCertificate certificate)
+    +void Reset()
+}
+
+class AssignementCertificate{
+    -ArrayList<Integer> enginesId 
+    -Integer currentEngine 
+    +AssignementCertificate(ArrayList<Integer> enginesId)
+    +Integer getNextEngine()
+    +void Reset()
+}
+
+
+class NumeriqueCard{
+    -Integer note  
+    +Integer GetNote()
+    +void SetNote(Integer note)
+}
+
+}
+class PointGym{
+    -RegistrationAgent registrationAgent 
+    -EngineModerationSystem engineModerationSystem  
+    -PrizeSystem prizeSystem
+
+    +PointGym()
+    +void RegisterGymnaste(String firstName ,String lastName  ,Integer age,String addresse,String teamName)
+    +void RegisterJudge(String firstName , String lastName  ,Integer matricule)
+    -String[] generateTeams(Integer gymnastesCount)
+    +void SetUpSystem(Integer judgesCount , Integer gymnastesCount , Integer enginesCount)
+    +void StartFirstDayCompetition()
+    +void StartSecondDayCompetition()
+    +void AnnounceCompetitionResults()
+}
+
+'-------------------
+
+package PrizeSystem{
+    
+class PrizeSystem {
+    -GymnasteNotesRegister notesRegister
+    -Integer enginesCount
+    -ArrayList<WinnerParticipant> bestTeams
+    -ArrayList<WinnerParticipant> bestGymnastes
+
+    +PrizeSystem(GymnasteNotesRegister register , Integer enginesCount)
+    +void AnounceSoloCompetitionWinners()
+    +void AnounceTeamCompetitionWinners()
+    +void CompileWinnersList()
+    
+}
+
+class WinnerParticipant {
+    -String id
+    -double note
+    -Integer engineId 
+
+    +WinnerParticipant(String id , double note , Integer engineId)
+    +String getId()
+    +double getNote()
+    +Integer getEngineId()
+
+}
+
+}
+
+package RegistrationSystem{
+
+class RegistrationSystem{
+    -ArrayList<Gymnaste> gymnastes 
+    -ArrayList<Judge> judges 
+    -Map<String,Team> teams 
+    -ArrayList<Integer> availlableEngines 
+
+    +RegistrationSystem()
+    +void RegisterGymnaste(Gymnaste gymnaste)
+    +void RegisterJudge(Judge judge)
+    +void AssigneParticipants(CompetitionMode mode , EngineModerationSystem moderationSystem)
+    -void AssigneJudges(EngineModerationSystem moderationSystem)
+    -void AssigneTeams(EngineModerationSystem moderationSystem)
+    -void AssigneGymnastesRandomly(EngineModerationSystem moderationSystem)
+    +void RegisterEngines(Integer enginesCount)
+    
+}
+
+class RegistrationAgent{
+    -RegistrationSystem registrationSystem
+    -Integer gymnasteCount 
+    
+    +RegistrationAgent()
+    +void RegisterGymnaste(String firstName , String lastName ,Integer age,String addresse,String teamName)
+    +void RegisterJudge(String firstName ,String lastName  ,Integer matricule)
+    +void RegisterEngines(Integer enginesCount)
+    +void AssigneParticipants(CompetitionMode mode, EngineModerationSystem engineModerationSystem)
+}
+
+
+
+}
+
+package NotesSystem{
+class EngineNotesRegister {
+    -Map<String , TeamNote> teamNotes
+    -Map<String , SoloNote> gymnasteNotes 
+
+    +EngineNotesRegister()
+    +void registerTeamNote(String teamId , double teamNote)
+    +void RegisterGymnasteNote(String gymnasteId, Figure figure, double note)
+    +TeamNote getBestTeam()
+    +SoloNote getBestGymnaste()
+}
+    
+class GymnasteNotesRegister<Singeleton>{
+    -static GymnasteNotesRegister instance 
+    -Map<Integer , EngineNotesRegister> engineNotesRegister 
+
+    -GymnasteNotesRegister()
+    +static GymnasteNotesRegister getInstance()
+    +void RegisterTeamNote(Integer engineId,String teamId , double note)
+    +void RegisterSoloNote(String gymnasteId, Figure figure, Integer engineId, double note)
+    +WinnerParticipant getEngineBestTeam(int index) 
+    +WinnerParticipant getEngineBestGymnaste(int index) 
+    
+}
+
+
+class SoloNote{
+    -double note
+    -String gymnasteId
+    -Figure figure
+
+    +SoloNote(String id)
+    +void addNote(Figure figure , Double note)
+    +double getNote()
+    +String getId()
+    +Figure getFigure()
+
+}
+
+class TeamNote{
+    -ArrayList<Double> notes
+    -String teamId
+
+    +TeamNote(String id)
+    +void addNote(Double note)
+    +Integer getNotesCount()
+    +double getNote()
+    +String getId()
+}
+
+}
+
+'-------------------
+PointGym --> EngineModerationSystem
+PointGym --> RegistrationAgent
+PointGym --o GymnasteNotesRegister
+PointGym -> PrizeSystem
+
+GymnasteNotesRegister --> TeamNote
+GymnasteNotesRegister --> SoloNote
+GymnasteNotesRegister -> EngineNotesRegister
+
+EngineModerationSystem --* Engine
+Engine --> Gymnaste
+Engine --> Judge
+Engine -> Compilateur
+
+
+Judge -* AssignementCertificate
+NumeriqueCard *- Judge
+
+Team -o Gymnaste
+Team --* Routine
+
+RegistrationAgent --> RegistrationSystem
+
+PrizeSystem -* WinnerParticipant
+
+
+@enduml

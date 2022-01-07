@@ -7,7 +7,6 @@ import Src.Judge.Judge;
 
 public class RegistrationAgent {
     private RegistrationSystem registrationSystem;
-    private static String currentGymnasteId = "";
     private Integer gymnasteCount = -1;
     
 
@@ -17,7 +16,7 @@ public class RegistrationAgent {
 
     public void RegisterGymnaste(String firstName , String lastName ,Integer age,String addresse,String teamName){
         gymnasteCount++;
-        currentGymnasteId = "gymnaste" + currentGymnasteId;
+        String currentGymnasteId = "gymnaste" + gymnasteCount;
 
         Gymnaste gymnaste = new Gymnaste(firstName, lastName, currentGymnasteId, age, addresse, teamName);
         registrationSystem.RegisterGymnaste(gymnaste);
@@ -33,7 +32,12 @@ public class RegistrationAgent {
     }
 
     public void AssigneParticipants(CompetitionMode mode, EngineModerationSystem engineModerationSystem) {
-        registrationSystem.AssigneParticipants(mode, engineModerationSystem);
+        /*
+        Assigne Participants to their engine depending on the competitionMode 
+        Solo : randomly assign gymnaste to engines
+        Team : assign team members to the same engine
+        */
+        registrationSystem.AssigneParticipantsToEngines(mode, engineModerationSystem);
     }
 
 }

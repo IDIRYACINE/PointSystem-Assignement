@@ -2,7 +2,6 @@ package Src.NotesSystem;
 
 import java.util.ArrayList;
 
-
 public class TeamNote {
     private ArrayList<Double> notes;
     private String teamId;

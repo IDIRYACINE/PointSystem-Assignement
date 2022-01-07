@@ -18,7 +18,7 @@ public class PrizeSystem {
     }
 
     public void AnounceSoloCompetitionWinners(){
-        System.out.println("Winner Teams By Engine");
+        System.out.println("Winner Gymnastes By Engine");
         System.out.println("-----------------------");
         
         for ( WinnerParticipant winner : bestGymnastes){
